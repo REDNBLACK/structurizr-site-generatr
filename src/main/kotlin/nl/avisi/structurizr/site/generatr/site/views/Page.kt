@@ -27,16 +27,16 @@ private fun HTML.headFragment(viewModel: PageViewModel) {
         meta(name = "viewport", content = "width=device-width, initial-scale=1")
         title { +viewModel.pageTitle }
         link(rel = "stylesheet", href = viewModel.cdn.bulmaCss())
-        link(rel = "stylesheet", href = "../" + "/style.css".asUrlToFile(viewModel.url))
+        link(rel = "stylesheet", href = viewModel.relativeTo + "/style.css".asUrlToFile(viewModel.url))
         link(rel = "stylesheet", href = "./" + "/style-branding.css".asUrlToFile(viewModel.url))
-        script(type = ScriptType.textJavaScript, src = "../" + "/modal.js".asUrlToFile(viewModel.url)) { }
-        script(type = ScriptType.textJavaScript, src = "../" + "/svg-modal.js".asUrlToFile(viewModel.url)) { }
+        script(type = ScriptType.textJavaScript, src = viewModel.relativeTo + "/modal.js".asUrlToFile(viewModel.url)) { }
+        script(type = ScriptType.textJavaScript, src = viewModel.relativeTo + "/svg-modal.js".asUrlToFile(viewModel.url)) { }
         script(type = ScriptType.textJavaScript, src = viewModel.cdn.svgpanzoomJs()) { }
         if (viewModel.allowToggleTheme)
-            script(type = ScriptType.textJavaScript, src = "../" + "/toggle-theme.js".asUrlToFile(viewModel.url)) { }
+            script(type = ScriptType.textJavaScript, src = viewModel.relativeTo + "/toggle-theme.js".asUrlToFile(viewModel.url)) { }
 
         if (viewModel.includeTreeview)
-            link(rel = "stylesheet", href = "../" + "/treeview.css".asUrlToFile(viewModel.url))
+            link(rel = "stylesheet", href = viewModel.relativeTo + "/treeview.css".asUrlToFile(viewModel.url))
 
         if (viewModel.includeAdmonition)
             markdownAdmonitionStylesheet(viewModel)
@@ -82,7 +82,7 @@ private fun HTML.bodyFragment(viewModel: PageViewModel, block: DIV.() -> Unit) {
         mermaidScript(viewModel)
 
         if (viewModel.includeTreeview) {
-            script(type = ScriptType.textJavaScript, src = "../" + "/treeview.js".asUrlToFile(viewModel.url)) { }
+            script(type = ScriptType.textJavaScript, src = viewModel.relativeTo + "/treeview.js".asUrlToFile(viewModel.url)) { }
             script(type = ScriptType.textJavaScript) { unsafe { +"listree();" } }
         }
 
