@@ -7,14 +7,14 @@ import nl.avisi.structurizr.site.generatr.site.model.PageViewModel
 fun HEAD.markdownAdmonitionStylesheet(viewModel: PageViewModel) {
     link(
         rel = "stylesheet",
-        href = "../" + "/admonition.css".asUrlToFile(viewModel.url)
+        href = viewModel.relativeTo + "/admonition.css".asUrlToFile(viewModel.url)
     )
 }
 
 fun BODY.markdownAdmonitionScript(viewModel: PageViewModel) {
     script(
         type = ScriptType.textJavaScript,
-        src = "../" + "/admonition.js".asUrlToFile(viewModel.url)
+        src = viewModel.relativeTo + "/admonition.js".asUrlToFile(viewModel.url)
     ) { }
 }
 
@@ -59,7 +59,7 @@ fun BODY.katexRenderScript(viewModel: PageViewModel) {
     // Fix to support math rendering in markdown:
     script(
         type = ScriptType.textJavaScript,
-        src = "../" + "/katex-render.js".asUrlToFile(viewModel.url)
+        src = viewModel.relativeTo + "/katex-render.js".asUrlToFile(viewModel.url)
     ) { }
 }
 
@@ -67,7 +67,7 @@ fun BODY.mermaidScript(viewModel: PageViewModel) {
     // Fix to support mermaid diagrams in markdown:
     script(
         type = ScriptType.textJavaScript,
-        src = "../" + "/reformat-mermaid.js".asUrlToFile(viewModel.url)
+        src = viewModel.relativeTo + "/reformat-mermaid.js".asUrlToFile(viewModel.url)
     ) { }
     // Simple full example, how to include Mermaid: https://mermaid.js.org/config/usage.html#simple-full-example
     script(type = "module") {

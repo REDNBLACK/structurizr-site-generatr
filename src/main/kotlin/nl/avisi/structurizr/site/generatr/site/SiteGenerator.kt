@@ -71,10 +71,12 @@ fun generateSite(
     assetsDir: File?,
     exportDir: File,
     branches: List<String>,
+    categories: List<String>,
     currentBranch: String,
+    returnLink: String?,
     serving: Boolean = false
 ) {
-    val generatorContext = GeneratorContext(version, workspace, branches, currentBranch, serving) { key, url ->
+    val generatorContext = GeneratorContext(version, workspace, branches, categories, currentBranch, returnLink, serving) { key, url ->
         val diagramCache = ConcurrentHashMap<String, String>()
         workspace.views.views.singleOrNull { view -> view.key == key }
             ?.let { generateDiagramWithElementLinks(workspace, it, url, diagramCache) }
@@ -97,8 +99,8 @@ private fun copyAssets(assetsDir: File, branchDir: File) {
 
 private fun generateStyle(context: GeneratorContext, branchDir: File) {
     val configuration = context.workspace.views.configuration.properties
-    val primary = configuration.getOrDefault("generatr.style.colors.primary", "#333333")
-    val secondary = configuration.getOrDefault("generatr.style.colors.secondary", "#cccccc")
+    val primary = configuration.getOrDefault("generatr.style.colors.primary", "#485fc7")
+    val secondary = configuration.getOrDefault("generatr.style.colors.secondary", "#ffffff")
 
     val file = File(branchDir, "style-branding.css")
     val content = """

@@ -7,12 +7,13 @@ import nl.avisi.structurizr.site.generatr.site.views.CDN
 abstract class PageViewModel(protected val generatorContext: GeneratorContext) {
     val pageTitle: String by lazy {
         if (pageSubTitle.isNotBlank() && generatorContext.workspace.name.isNotBlank())
-            "$pageSubTitle | ${generatorContext.workspace.name}"
+            "$pageSubTitle | C4 ${generatorContext.workspace.name}"
         else if (generatorContext.workspace.name.isNotBlank())
-            generatorContext.workspace.name
+            "C4 ${generatorContext.workspace.name}"
         else
             pageSubTitle
     }
+    val relativeTo = if (generatorContext.categories.size > 1) "../../" else "../" // "../" - By Default, For Single Workspace
     val cdn by lazy { CDN(generatorContext.workspace) }
     val favicon by lazy { FaviconViewModel(generatorContext, this) }
     val customStylesheet by lazy { CustomStylesheetViewModel(generatorContext, this) }
@@ -24,8 +25,8 @@ abstract class PageViewModel(protected val generatorContext: GeneratorContext) {
     val includeKatex = flexmarkConfig.selectedExtensionMap.containsKey("GitLab")
     val includedSoftwareSystems = generatorContext.workspace.includedSoftwareSystems
     val configuration = generatorContext.workspace.views.configuration.properties
-    val includeTreeview = configuration.getOrDefault("generatr.site.nestGroups", "false").toBoolean()
-    val theme = configuration.getOrDefault("generatr.site.theme", "light").toTheme()
+    val includeTreeview = configuration.getOrDefault("generatr.site.nestGroups", "true").toBoolean()
+    val theme = configuration.getOrDefault("generatr.site.theme", "auto").toTheme()
     val allowToggleTheme = theme == Theme.AUTO
 
     abstract val url: String

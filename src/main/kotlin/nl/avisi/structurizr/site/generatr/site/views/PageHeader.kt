@@ -9,17 +9,25 @@ import nl.avisi.structurizr.site.generatr.site.model.LinkViewModel
 fun BODY.pageHeader(viewModel: HeaderBarViewModel) {
     script(
         type = ScriptType.textJavaScript,
-        src = "../" + "/header.js".asUrlToFile(viewModel.url)
+        src = viewModel.relativeTo + "/header.js".asUrlToFile(viewModel.url)
     ) { }
     nav(classes = "navbar") {
         role = "navigation"
         attributes["aria-label"] = "main navigation"
 
         div(classes = "navbar-brand has-site-branding") {
+            viewModel.returnLink?.let {
+                a(classes = "navbar-item", href = it) {
+                    span(classes = "has-text-weight-semibold has-site-branding") { +"« Назад" }
+                }
+            }
+
             if (viewModel.hasLogo)
                 logo(viewModel.titleLink, viewModel.logo!!)
 
-            navbarLink(viewModel.titleLink)
+            viewModel.categories.forEach { (link, active) ->
+                navbarLink(link, active)
+            }
         }
         div(classes = "navbar-menu has-site-branding") {
             div(classes = "navbar-end") {
@@ -79,9 +87,9 @@ private fun DIV.logo(linkViewModel: LinkViewModel, imageViewModel: ImageViewMode
     }
 }
 
-private fun DIV.navbarLink(viewModel: LinkViewModel) {
+private fun DIV.navbarLink(viewModel: LinkViewModel, selected: Boolean = false) {
     a(
-        classes = "navbar-item",
+        classes = "navbar-item" + if (selected) " is-active" else "",
         href = viewModel.relativeHref
     ) {
         span(classes = "has-text-weight-semibold has-site-branding") { +viewModel.title }
